@@ -137,6 +137,29 @@ both PowerShell profiles.
 
 ## Mise
 
+The global configuration at `~/.config/mise/config.toml` is managed by
+`dot_config/mise/config.toml`. It requests the latest Go, Herdr, OpenCode, and
+Rust toolchains/apps. Edit its `[tools]` table to add or pin tools.
+
+On every full `chezmoi apply`, installation runs in this order:
+
+1. The existing WinGet hook installs mise if missing.
+2. `run_before_10-rust-build-tools.cmd.tmpl` installs Visual Studio 2022 Build
+   Tools with the C++ workload and recommended Windows SDK if C++ tools are missing.
+   Existing Visual Studio C++ installations are reused. Installation may request
+   elevation.
+3. Chezmoi writes the managed configuration files.
+4. `run_after_10-mise.cmd.tmpl` runs `mise upgrade --yes`, installing missing
+   tools and upgrading configured tools within their requested versions.
+5. `run_after_20-go-apps.cmd.tmpl` installs the Go applications listed below.
+6. `run_after_30-cargo-apps.cmd.tmpl` installs the Cargo applications listed below.
+
+These hooks run from your home directory to use the global mise configuration.
+They refresh the inherited `PATH` from Windows' user and machine settings so a
+newly installed mise is available in the same apply. Application installs use
+`mise exec`, so they use mise's Go and Cargo without reopening the shell.
+An installation failure stops the apply.
+
 Both PowerShell profiles load `~/.config/powershell/mise.ps1` to activate
 [mise](https://mise.jdx.dev/) when its executable is on `PATH`. Installed tools
 are available immediately, and the custom prompt refreshes mise's environment
@@ -146,6 +169,51 @@ next prompt.
 
 After applying, reopen PowerShell or reload `. $PROFILE.CurrentUserAllHosts`.
 Use `mise ls` to check configured tools and `mise doctor` to check activation.
+
+## Go applications
+
+`go-packages.json` is the shared list of Go package paths with version suffixes:
+
+```json
+[
+  "github.com/pbogut/hackdeck@latest",
+  "github.com/pbogut/hackdeck-discord@latest"
+]
+```
+
+The Go hook runs `go install` for each entry on every full apply, after mise has
+prepared Go. Add a package path with `@latest` or a pinned version to install
+another application. Binaries go to Go's normal install location (`GOBIN`, or
+`~/go/bin` by default); the managed mise config disables its version-specific
+`GOBIN` override so the apps survive Go upgrades. Removing an entry does not
+uninstall its binary.
+
+## Cargo applications
+
+`vban-mini` is a Rust application, installed from your Git repository rather
+than through Go. `cargo-packages.json` lists Git URLs and package names:
+
+```json
+[
+  {
+    "Git": "https://github.com/pbogut/vban-mini",
+    "Package": "vban-mini",
+    "WindowsPortAudio": true
+  }
+]
+```
+
+The Cargo hook runs `cargo install --locked --git` for each entry on every full
+apply. Cargo reuses an up-to-date installation and updates it when the Git
+revision changes. Binaries go to Cargo's normal install location (`~/.cargo/bin`
+by default). Removing an entry does not uninstall its binary. Both application
+lists and the PowerShell installation helpers stay in the chezmoi source directory.
+
+`WindowsPortAudio` enables the Windows build settings from vban-mini's Makefile:
+the bundled `portaudio.lib`, its required system libraries, and the static MSVC
+runtime. The hook keeps a source checkout and generated Cargo config under
+`%LOCALAPPDATA%\chezmoi\cargo`, and installs the same Git revision as the library.
+Omit this field for Rust applications that do not need these settings.
 
 ## Herdr
 
@@ -197,7 +265,7 @@ PowerShell module; the light uses the standard Mosquitto command-line clients.
 
 ### Install and apply
 
-The existing `hackdeck` and `hackdeck-discord` installations are used.
+The Go application hook installs `hackdeck` and `hackdeck-discord` on full applies.
 `chezmoi apply` checks the audio and MQTT dependencies and installs missing
 packages automatically:
 

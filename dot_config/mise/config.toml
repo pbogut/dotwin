@@ -1,0 +1,9 @@
+[tools]
+go = "latest"
+herdr = "latest"
+opencode = "latest"
+rust = "latest"
+
+[settings]
+# Keep Go applications in GOPATH/bin rather than a version-specific toolchain bin.
+go.set_gobin = false

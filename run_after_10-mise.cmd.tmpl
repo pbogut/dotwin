@@ -1,0 +1,6 @@
+{{ if eq .chezmoi.os "windows" -}}
+@echo off
+rem Upgrade configured tools after the managed mise config has been applied.
+powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "{{ joinPath .chezmoi.sourceDir "scripts" "upgrade-mise.ps1" }}"
+exit /b %errorlevel%
+{{ end -}}

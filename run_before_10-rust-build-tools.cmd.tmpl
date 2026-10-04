@@ -1,0 +1,6 @@
+{{ if eq .chezmoi.os "windows" -}}
+@echo off
+rem Prepare the native C++ toolchain and Windows SDK needed by Rust applications.
+powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "{{ joinPath .chezmoi.sourceDir "scripts" "install-rust-build-tools.ps1" }}"
+exit /b %errorlevel%
+{{ end -}}

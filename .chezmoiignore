@@ -1,5 +1,8 @@
 README.md
 winget-packages.json
+go-packages.json
+cargo-packages.json
+scripts/**
 .config/chezmoi/**
 key.txt.age
 scripts/age-key.ps1

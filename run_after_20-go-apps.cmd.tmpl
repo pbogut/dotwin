@@ -1,0 +1,6 @@
+{{ if eq .chezmoi.os "windows" -}}
+@echo off
+rem Install Go applications with the toolchain prepared by the mise hook.
+powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "{{ joinPath .chezmoi.sourceDir "scripts" "install-go-apps.ps1" }}"
+exit /b %errorlevel%
+{{ end -}}
