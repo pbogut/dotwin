@@ -40,3 +40,15 @@ Reopen PowerShell after applying, or reload the profile in an existing session:
 `ccd` changes to the chezmoi source directory, as reported by `chezmoi source-path`.
 Shared functions live in `dot_config/powershell/functions.ps1` and are loaded by
 both PowerShell profiles.
+
+## Mise
+
+Both PowerShell profiles load `~/.config/powershell/mise.ps1` to activate
+[mise](https://mise.jdx.dev/) when its executable is on `PATH`. Installed tools
+are available immediately, and the custom prompt refreshes mise's environment
+so project-specific tool versions follow the current directory. PowerShell 7
+also refreshes on directory changes; Windows PowerShell 5.1 refreshes at the
+next prompt.
+
+After applying, reopen PowerShell or reload `. $PROFILE.CurrentUserAllHosts`.
+Use `mise ls` to check configured tools and `mise doctor` to check activation.
