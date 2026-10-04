@@ -6,6 +6,28 @@ Managed with [chezmoi](https://www.chezmoi.io/). Apply changes with:
 chezmoi apply
 ```
 
+## WinGet packages
+
+`winget-packages.json` is the shared package list, initially containing
+AutoHotkey v2 (`AutoHotkey.AutoHotkey`), mise (`jdx.mise`), and Mosquitto
+(`EclipseFoundation.Mosquitto`). The list stays in the chezmoi source directory.
+
+`run_before_00-winget.cmd.tmpl` imports the list on every full `chezmoi apply`,
+before updating files. Missing apps are installed at the latest available
+version; installed apps are skipped with `--no-upgrade`. Package and source
+agreements are accepted automatically. Installation failures stop the apply.
+WinGet must already be installed; some installers may request Windows elevation.
+
+To add an app, find its ID with `winget search`, add an entry to `Packages`:
+
+```json
+{ "PackageIdentifier": "Publisher.PackageName" }
+```
+
+Then run `chezmoi apply`. Removing an entry does not uninstall the app.
+The HackDeck-specific dependency hook also installs Mosquitto when applying
+only the HackDeck directory.
+
 ## PowerShell prompt
 
 The native PowerShell prompt mirrors the three-line Starship layout from

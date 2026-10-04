@@ -1,0 +1,11 @@
+{{ if eq .chezmoi.os "windows" -}}
+@echo off
+rem Install missing packages on every apply; reuse existing installations.
+where winget.exe >nul 2>&1
+if errorlevel 1 (
+    echo WinGet is required to install packages from winget-packages.json. >&2
+    exit /b 1
+)
+winget.exe import --import-file "{{ joinPath .chezmoi.sourceDir "winget-packages.json" }}" --no-upgrade --accept-package-agreements --accept-source-agreements --disable-interactivity
+exit /b %errorlevel%
+{{ end -}}
