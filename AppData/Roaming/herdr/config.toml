@@ -1,5 +1,11 @@
 onboarding = false
 
+[ui]
+tab_bar_position = "bottom"
+
+[keys]
+prefix = "ctrl+g"
+
 # Numbered tab labels are stable shortcuts, even when other tabs are closed.
 # Each command switches to the named tab or creates it in the active workspace.
 [[keys.command]]
