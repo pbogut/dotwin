@@ -1,0 +1,53 @@
+columns = 7
+rows = 4
+button_spacing = 10
+button_radius = 40
+button_background = true
+brightness = 0.3
+support_button_release_long_press = true
+
+shell_command = "powershell.exe"
+shell_arguments = ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command"]
+
+[[buttons]]
+row = 0
+column = 2
+color = "#000000"
+icon_text = "󱧣"
+label = "Light"
+label_size = 30
+execute = '& "$env:APPDATA\hackdeck\scripts\light.ps1"'
+button_press = '& "$env:APPDATA\hackdeck\scripts\light.ps1" -Action Toggle'
+
+[[buttons]]
+row = 0
+column = 3
+color = "#000000"
+icon_text = ""
+label = "Audio"
+label_size = 35
+execute = '& "$env:APPDATA\hackdeck\scripts\audio.ps1"'
+button_press = '& "$env:APPDATA\hackdeck\scripts\audio.ps1" -Action Toggle'
+
+[[buttons]]
+row = 2
+column = 1
+color = "#000000"
+icon_text = "󰑊"
+icon_color = "#555555"
+label = "Save clip"
+label_size = 30
+button_press = '& "$env:APPDATA\hackdeck\scripts\clip.ps1"'
+
+[[buttons]]
+row = 2
+column = 4
+color = "#000000"
+icon_text = ""
+icon_color = "#5865f2"
+label = "Discord"
+label_size = 30
+execute = '& "$env:USERPROFILE\go\bin\hackdeck-discord.exe"'
+interval = 30
+button_release = "<|mute:toggle\n"
+button_long_press = "<|deaf:toggle\n"
