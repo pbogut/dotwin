@@ -220,6 +220,22 @@ runtime. The hook keeps a source checkout and generated Cargo config under
 `%LOCALAPPDATA%\chezmoi\cargo`, and installs the same Git revision as the library.
 Omit this field for Rust applications that do not need these settings.
 
+### vban-mini startup and logging
+
+The managed Windows Startup entry runs `%APPDATA%\vban-mini\start.ps1` in a
+hidden PowerShell process at sign-in. The launcher uses
+`%USERPROFILE%\.cargo\bin\vban-mini.exe` (or `%CARGO_HOME%\bin\vban-mini.exe`
+when `CARGO_HOME` is set) with `--stream-name Stream1 --diagnostics`.
+Both stdout and stderr are written to `%USERPROFILE%\vban-mini.log`, which is
+cleared on each launch.
+
+Run a full `chezmoi apply` to install the application and startup files. To
+start it manually with the same logging:
+
+```powershell
+& "$env:APPDATA\vban-mini\start.ps1"
+```
+
 ## Herdr
 
 The configuration at `%APPDATA%\herdr\config.toml` binds these direct shortcuts:
