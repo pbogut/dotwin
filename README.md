@@ -89,6 +89,10 @@ only the HackDeck directory.
 
 ## Alacritty hotkeys
 
+Press **Win+Enter** to open a new Alacritty window in your home directory,
+using the existing Alacritty configuration. The shortcut launches
+`C:\Program Files\Alacritty\alacritty.exe`.
+
 Press **Alt+Esc** to enter Alacritty's vi/selection mode. AutoHotkey intercepts
 the shortcut globally and sends F13 internally, which Alacritty binds
 to `ToggleViMode`. This replaces Windows' Alt+Esc window-switching shortcut.
