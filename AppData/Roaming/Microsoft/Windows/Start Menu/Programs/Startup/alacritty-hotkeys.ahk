@@ -18,6 +18,14 @@ if RegRead(lockPolicyKey, "DisableLockWorkstation", 0) != 1 {
 ; Win+Enter opens a new Alacritty window in the home directory.
 #Enter::Run "C:\Program Files\Alacritty\alacritty.exe", EnvGet("USERPROFILE")
 
+; Switch virtual desktops using Windows' native Ctrl+Win+Arrow shortcuts.
+; Force the keyboard hook to intercept the built-in Windows shortcuts.
+$#l::
+$#n::SendEvent "^#{Right}"
+
+$#h::
+$#p::SendEvent "^#{Left}"
+
 ; Replace Windows' Alt+Esc window switching globally. Alacritty binds the
 ; internally sent F13 to ToggleViMode; physically press Alt+Esc.
 ; $ forces the keyboard hook and prevents synthetic keystrokes re-triggering it.

@@ -98,6 +98,17 @@ the shortcut globally and sends F13 internally, which Alacritty binds
 to `ToggleViMode`. This replaces Windows' Alt+Esc window-switching shortcut.
 In vi mode, `v` starts a selection, movement keys extend it, and `y` copies it.
 
+Virtual desktop shortcuts:
+
+| Shortcut | Action |
+| --- | --- |
+| Win+L, Win+N | Switch to the next virtual desktop (Ctrl+Win+Right) |
+| Win+H, Win+P | Switch to the previous virtual desktop (Ctrl+Win+Left) |
+
+These replace Windows' lock, notification, voice typing, and projection shortcuts.
+They switch between existing desktops without wrapping at either end. Win+L relies
+on the workstation lock policy below.
+
 The managed script is
 `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\alacritty-hotkeys.ahk`,
 so it starts at sign-in. `chezmoi apply` also starts or reloads it immediately;
