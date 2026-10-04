@@ -34,3 +34,9 @@ Reopen PowerShell after applying, or reload the profile in an existing session:
 ```powershell
 . $PROFILE.CurrentUserAllHosts
 ```
+
+## PowerShell commands
+
+`ccd` changes to the chezmoi source directory, as reported by `chezmoi source-path`.
+Shared functions live in `dot_config/powershell/functions.ps1` and are loaded by
+both PowerShell profiles.
