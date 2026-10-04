@@ -104,6 +104,24 @@ so it starts at sign-in. `chezmoi apply` also starts or reloads it immediately;
 `#SingleInstance Force` ensures only one copy runs. AutoHotkey v2 is installed
 through the shared WinGet package list. Use its tray icon to reload or exit it.
 
+### Workstation lock policy
+
+At startup, the hotkey script sets the current user's
+`HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableLockWorkstation`
+DWORD to `1`. This prevents Windows from reserving Win+L for locking and also
+disables manual locking through the Start menu and Ctrl+Alt+Delete. The setting
+persists when the script exits. If Windows protects the policy key, the script
+requests elevation for the registry command only; approve the UAC prompt once.
+The hotkey script and applications it launches continue running unelevated.
+
+To restore manual locking, remove the `lockPolicyKey` assignment and its following
+`if` block from the managed script, apply and reload it, then run this in an
+elevated PowerShell session:
+
+```powershell
+Remove-ItemProperty -LiteralPath 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name DisableLockWorkstation
+```
+
 ## PowerShell prompt
 
 The native PowerShell prompt mirrors the three-line Starship layout from
