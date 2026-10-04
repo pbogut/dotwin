@@ -1,0 +1,70 @@
+# Windows adaptation of the Linux Alacritty configuration.
+
+[font]
+size = 12
+# Use the default Windows font (Consolas); JetBrainsMono Nerd Font Mono
+# is not installed on this machine.
+
+[window]
+padding.x = 0
+padding.y = 0
+#decorations = "None"
+
+[hints]
+alphabet = "jfkdls;ahgurieowpq"
+
+[[hints.enabled]]
+# Open links with their default Windows application.
+command = { program = "cmd", args = ["/c", "start", ""] }
+post_processing = true
+regex = '''(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)//[a-zA-Z0-9,'+\.\-_/\?=&%:]+'''
+
+[hints.enabled.binding]
+key = "U"
+mods = "Alt"
+
+[hints.enabled.mouse]
+enabled = true
+
+[[keyboard.bindings]]
+action = "ToggleViMode"
+key = "Escape"
+mode = "~Vi"
+mods = "Alt"
+
+[[keyboard.bindings]]
+# Windows reserves Alt+Escape for switching windows; provide a fallback.
+action = "ToggleViMode"
+key = "Escape"
+mode = "~Vi"
+mods = "Alt|Control"
+
+[[keyboard.bindings]]
+action = "ToggleViMode"
+key = "S"
+mode = "~Vi|~Search"
+mods = "Alt|Control"
+
+[[keyboard.bindings]]
+action = "SearchBackward"
+key = "S"
+mode = "~Vi"
+mods = "Alt|Control"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "P"
+mode = "~Vi"
+mods = "Alt|Control"
+
+[[keyboard.bindings]]
+# Windows has no selection clipboard; use the system clipboard instead.
+action = "Paste"
+key = "V"
+mode = "~Vi"
+mods = "Alt|Control"
+
+[[keyboard.bindings]]
+key = "Enter"
+mods = "Shift"
+chars = "\u001b[13;2u"
