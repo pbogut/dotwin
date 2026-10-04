@@ -24,10 +24,6 @@ function global:prompt {
     # Capture status before running any commands, including Git.
     $lastCommandSucceeded = $?
     $lastExitCode = $global:LASTEXITCODE
-    # The custom prompt replaces mise's prompt wrapper; keep its PATH refresh.
-    if (Test-Path Function:\_mise_hook) {
-        _mise_hook
-    }
     $location = Get-Location
     $lastCommand = Get-History -Count 1
 

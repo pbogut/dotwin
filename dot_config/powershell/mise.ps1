@@ -1,9 +1,10 @@
-# Activate mise before loading the custom prompt, which calls its environment hook.
-$mise = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue
-if ($mise) {
-    if ($PSVersionTable.PSVersion.Major -lt 7) {
-        # PowerShell 5.1 refreshes at the prompt instead of on directory changes.
-        $env:MISE_PWSH_CHPWD_WARNING = '0'
-    }
-    & $mise.Source activate pwsh | Out-String | Invoke-Expression
+# Use mise's shims without launching mise or installing shell hooks at startup.
+$miseDataDir = if ($env:MISE_DATA_DIR) {
+    $env:MISE_DATA_DIR
+} else {
+    Join-Path $env:LOCALAPPDATA 'mise'
+}
+$miseShims = Join-Path $miseDataDir 'shims'
+if (($env:PATH -split ';') -notcontains $miseShims) {
+    $env:PATH = "$miseShims;$env:PATH"
 }

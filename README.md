@@ -164,15 +164,16 @@ newly installed mise is available in the same apply. Application installs use
 `mise exec`, so they use mise's Go and Cargo without reopening the shell.
 An installation failure stops the apply.
 
-Both PowerShell profiles load `~/.config/powershell/mise.ps1` to activate
-[mise](https://mise.jdx.dev/) when its executable is on `PATH`. Installed tools
-are available immediately, and the custom prompt refreshes mise's environment
-so project-specific tool versions follow the current directory. PowerShell 7
-also refreshes on directory changes; Windows PowerShell 5.1 refreshes at the
-next prompt.
+Both PowerShell profiles load `~/.config/powershell/mise.ps1` to prepend
+[mise's shims](https://mise.jdx.dev/dev-tools/shims.html) to `PATH`, using
+`%LOCALAPPDATA%\mise\shims` or `%MISE_DATA_DIR%\shims` when overridden.
+Reloading the profile does not add duplicate entries. Shims select the
+project-specific tool version when a command runs, keeping startup fast without
+shell activation or prompt hooks. Use `mise exec -- <command>` when you also need
+mise's project-specific environment variables.
 
 After applying, reopen PowerShell or reload `. $PROFILE.CurrentUserAllHosts`.
-Use `mise ls` to check configured tools and `mise doctor` to check activation.
+Use `mise ls` to check configured tools and `mise doctor` to check the setup.
 
 ## Go applications
 
