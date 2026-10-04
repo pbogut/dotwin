@@ -104,10 +104,16 @@ Virtual desktop shortcuts:
 | --- | --- |
 | Win+L, Win+N | Switch to the next virtual desktop (Ctrl+Win+Right) |
 | Win+H, Win+P | Switch to the previous virtual desktop (Ctrl+Win+Left) |
+| Win+C | Create and switch to a new virtual desktop (Ctrl+Win+D) |
+| Win+D | Close the current virtual desktop (Ctrl+Win+F4) |
+| Win+O | Show all virtual desktops in Task View (Win+Tab) |
 
-These replace Windows' lock, notification, voice typing, and projection shortcuts.
-They switch between existing desktops without wrapping at either end. Win+L relies
-on the workstation lock policy below.
+These replace Windows' lock, notification, voice typing, projection, Copilot, and
+Show Desktop shortcuts, plus the orientation lock shortcut. Next/previous
+shortcuts switch between existing desktops without wrapping at either end.
+Closing a desktop moves its windows to another
+desktop; it does not close the applications, and the last desktop cannot be
+closed. Win+L relies on the workstation lock policy below.
 
 The managed script is
 `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\alacritty-hotkeys.ahk`,

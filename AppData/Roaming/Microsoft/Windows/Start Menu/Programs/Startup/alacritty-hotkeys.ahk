@@ -26,6 +26,15 @@ $#n::SendEvent "^#{Right}"
 $#h::
 $#p::SendEvent "^#{Left}"
 
+; Create and switch to a new virtual desktop using Ctrl+Win+D.
+$#c::SendEvent "^#d"
+
+; Close the current virtual desktop using Ctrl+Win+F4.
+$#d::SendEvent "^#{F4}"
+
+; Show the virtual desktop overview (Task View) using Win+Tab.
+$#o::SendEvent "#{Tab}"
+
 ; Replace Windows' Alt+Esc window switching globally. Alacritty binds the
 ; internally sent F13 to ToggleViMode; physically press Alt+Esc.
 ; $ forces the keyboard hook and prevents synthetic keystrokes re-triggering it.
