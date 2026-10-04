@@ -88,6 +88,38 @@ next prompt.
 After applying, reopen PowerShell or reload `. $PROFILE.CurrentUserAllHosts`.
 Use `mise ls` to check configured tools and `mise doctor` to check activation.
 
+## Herdr
+
+The configuration at `%APPDATA%\herdr\config.toml` binds these direct shortcuts:
+
+| Shortcut | Tab label |
+| --- | --- |
+| Alt+J | 1 |
+| Alt+K | 2 |
+| Alt+L | 3 |
+| Alt+; | 4 |
+| Alt+M | 5 |
+| Alt+, | 6 |
+| Alt+. | 7 |
+| Alt+/ | 8 |
+| Alt+H | 9 |
+
+Each shortcut switches to that numbered tab in the active workspace, creating
+and focusing it if missing. The helper matches **tab labels**, so closing another
+tab does not change the shortcuts, and jumping directly to 9 creates only tab 9.
+Keep these tabs named `1` through `9`; renaming one frees its shortcut to create
+a new numbered tab. New tabs use Herdr's configured shell and working-directory
+policy. Every shortcut sorts numbered tabs ascending (`1` through `9`) before
+other named tabs, preserving those other tabs' relative order. Repeated shortcuts
+are serialized to avoid duplicate tabs.
+
+Apply the configuration and PowerShell helper together, then reload Herdr:
+
+```powershell
+chezmoi apply "$env:APPDATA\herdr"
+herdr server reload-config
+```
+
 ## HackDeck
 
 The Windows configuration preserves the Linux 7 x 4 grid and styling, with

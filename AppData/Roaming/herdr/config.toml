@@ -1,0 +1,57 @@
+onboarding = false
+
+# Numbered tab labels are stable shortcuts, even when other tabs are closed.
+# Each command switches to the named tab or creates it in the active workspace.
+[[keys.command]]
+key = "alt+j"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 1'
+description = "switch to or create tab 1"
+
+[[keys.command]]
+key = "alt+k"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 2'
+description = "switch to or create tab 2"
+
+[[keys.command]]
+key = "alt+l"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 3'
+description = "switch to or create tab 3"
+
+[[keys.command]]
+key = "alt+semicolon"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 4'
+description = "switch to or create tab 4"
+
+[[keys.command]]
+key = "alt+m"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 5'
+description = "switch to or create tab 5"
+
+[[keys.command]]
+key = "alt+comma"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 6'
+description = "switch to or create tab 6"
+
+[[keys.command]]
+key = "alt+period"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 7'
+description = "switch to or create tab 7"
+
+[[keys.command]]
+key = "alt+slash"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 8'
+description = "switch to or create tab 8"
+
+[[keys.command]]
+key = "alt+h"
+type = "shell"
+command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%APPDATA%\herdr\switch-tab.ps1" 9'
+description = "switch to or create tab 9"
