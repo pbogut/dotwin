@@ -33,11 +33,10 @@ mode = "~Vi"
 mods = "Alt"
 
 [[keyboard.bindings]]
-# Windows reserves Alt+Escape for switching windows; provide a fallback.
+# AutoHotkey translates physical Alt+Escape to unmodified F13 globally.
 action = "ToggleViMode"
-key = "Escape"
+key = "F13"
 mode = "~Vi"
-mods = "Alt|Control"
 
 [[keyboard.bindings]]
 action = "ToggleViMode"

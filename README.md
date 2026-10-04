@@ -28,6 +28,19 @@ Then run `chezmoi apply`. Removing an entry does not uninstall the app.
 The HackDeck-specific dependency hook also installs Mosquitto when applying
 only the HackDeck directory.
 
+## Alacritty hotkeys
+
+Press **Alt+Esc** to enter Alacritty's vi/selection mode. AutoHotkey intercepts
+the shortcut globally and sends F13 internally, which Alacritty binds
+to `ToggleViMode`. This replaces Windows' Alt+Esc window-switching shortcut.
+In vi mode, `v` starts a selection, movement keys extend it, and `y` copies it.
+
+The managed script is
+`%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\alacritty-hotkeys.ahk`,
+so it starts at sign-in. `chezmoi apply` also starts or reloads it immediately;
+`#SingleInstance Force` ensures only one copy runs. AutoHotkey v2 is installed
+through the shared WinGet package list. Use its tray icon to reload or exit it.
+
 ## PowerShell prompt
 
 The native PowerShell prompt mirrors the three-line Starship layout from
