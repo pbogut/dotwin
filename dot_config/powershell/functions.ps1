@@ -1,3 +1,7 @@
+function global:q {
+    exit
+}
+
 function global:ccd {
     $sourcePath = & chezmoi source-path
     if ($LASTEXITCODE -ne 0 -or -not $sourcePath) {
