@@ -52,3 +52,84 @@ next prompt.
 
 After applying, reopen PowerShell or reload `. $PROFILE.CurrentUserAllHosts`.
 Use `mise ls` to check configured tools and `mise doctor` to check activation.
+
+## HackDeck
+
+The Windows configuration preserves the Linux 7 x 4 grid and styling, with
+four active buttons (positions are zero-based):
+
+| Position | Button | Action |
+| --- | --- | --- |
+| Row 0, column 2 | Light | Toggle Tasmota `tasmota_31A3A8`, `Power1`; show ON/OFF |
+| Row 0, column 3 | Audio | Toggle default playback mute; show volume and mute state |
+| Row 2, column 1 | Steam clip | Send Ctrl+F11 to the currently focused game |
+| Row 2, column 4 | Discord | Short-release mute; long-press deafen; show voice state |
+
+HackDeck executes button commands through Windows PowerShell. Discord invokes
+the existing `hackdeck-discord.exe`. Audio uses the `AudioDeviceCmdlets`
+PowerShell module; the light uses the standard Mosquitto command-line clients.
+
+### Install and apply
+
+The existing `hackdeck` and `hackdeck-discord` installations are used.
+`chezmoi apply` checks the audio and MQTT dependencies and installs missing
+packages automatically:
+
+- `AudioDeviceCmdlets` 3.1.0.2 from PowerShell Gallery, for the current user.
+  The hook also installs the NuGet provider if needed.
+- `EclipseFoundation.Mosquitto` through WinGet. Its standard machine-wide
+  installer may request Windows elevation.
+
+Existing installations are reused. The light script finds the Mosquitto
+clients on `PATH`, through `MOSQUITTO_DIR`, or in the standard installation
+directories, including immediately after installation.
+
+Apply the configuration, scripts, and dependency-install hook together:
+
+```powershell
+chezmoi apply "$env:APPDATA\hackdeck"
+```
+
+Restart HackDeck after applying changes so its status commands are restarted:
+
+```powershell
+& "$env:USERPROFILE\go\bin\hackdeck.exe"
+```
+
+Use the desktop's address and port `8191` in the Macro Deck client.
+
+### Local credentials
+
+Discord reads the existing `%APPDATA%\hackdeck\hackdeck-discord.toml`. Its
+client ID and secret remain local, and first authentication may require
+authorization in Discord. Controls and status use that helper's existing
+implementation.
+
+The light reads `~/.secrets.json`, using the same structure as Linux:
+
+```json
+{
+  "homeassistant": {
+    "mqtt": {
+      "host": "broker.example",
+      "user": "your-mqtt-user",
+      "pass": "your-mqtt-password"
+    }
+  }
+}
+```
+
+An optional `port` field is supported; `host` is a hostname or IP address.
+Set `HACKDECK_SECRETS_FILE` before starting HackDeck to use a different local
+file. This file contains your local MQTT broker settings and credentials.
+
+The light subscribes to `stat/tasmota_31A3A8/POWER1`, queries current state with
+an empty `cmnd/tasmota_31A3A8/Power1` payload, and publishes a non-retained
+`TOGGLE` on press. It resubscribes and queries state after reconnecting.
+
+### Steam clips and checks
+
+Steam must already be recording the game, with Ctrl+F11 assigned to save a
+clip. The PowerShell script sends the shortcut without changing focus.
+**Clip requested** confirms the shortcut was sent, not that Steam saved a clip.
+The label returns to **Save clip** after 1.5 seconds. Recording status is omitted.
