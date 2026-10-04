@@ -11,6 +11,7 @@
       "Packages": [
         { "PackageIdentifier": "AutoHotkey.AutoHotkey" },
         { "PackageIdentifier": "jdx.mise" },
+        { "PackageIdentifier": "JesseDuffield.lazygit" },
         { "PackageIdentifier": "EclipseFoundation.Mosquitto" }
       ]
     }
