@@ -270,6 +270,8 @@ PowerShell module; the light uses the standard Mosquitto command-line clients.
 ### Install and apply
 
 The Go application hook installs `hackdeck` and `hackdeck-discord` on full applies.
+The managed Windows Startup launcher starts `%USERPROFILE%\go\bin\hackdeck.exe`
+in the background at sign-in. Run a full `chezmoi apply` to install the launcher.
 `chezmoi apply` checks the audio and MQTT dependencies and installs missing
 packages automatically:
 
