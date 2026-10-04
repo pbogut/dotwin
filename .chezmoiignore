@@ -1,2 +1,5 @@
 README.md
 winget-packages.json
+.config/chezmoi/**
+key.txt.age
+scripts/age-key.ps1

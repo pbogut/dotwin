@@ -1,0 +1,15 @@
+encryption = "age"
+
+[age]
+    identity = {{ joinPath .chezmoi.homeDir ".config" "chezmoi" "age-key.txt" | quote }}
+    recipient = "age1umq860ffxqdyj7z82rjgljykecan0cnre9yjprglx0a0s35f5efs0rj4yh"
+
+[hooks.read-source-state.pre]
+    command = "powershell.exe"
+    args = [
+        "-NoLogo", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+        {{ joinPath .chezmoi.sourceDir "scripts" "age-key.ps1" | quote }},
+        "-IdentityPath", {{ joinPath .chezmoi.homeDir ".config" "chezmoi" "age-key.txt" | quote }},
+        "-EncryptedKeyPath", {{ joinPath .chezmoi.sourceDir "key.txt.age" | quote }},
+        "-Recipient", "age1umq860ffxqdyj7z82rjgljykecan0cnre9yjprglx0a0s35f5efs0rj4yh",
+    ]

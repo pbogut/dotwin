@@ -6,6 +6,65 @@ Managed with [chezmoi](https://www.chezmoi.io/). Apply changes with:
 chezmoi apply
 ```
 
+## Encrypted files
+
+Windows uses its own age identity and password, independent of the Linux
+dotfiles. The password-protected identity is stored in Git as `key.txt.age`.
+The unlocked identity stays local at `~/.config/chezmoi/age-key.txt`.
+Chezmoi's built-in age support handles both file encryption and the
+password-protected key; no separate age installation is required.
+
+After cloning this repository, run:
+
+```powershell
+chezmoi init
+chezmoi apply
+```
+
+The `read-source-state.pre` hook in `.chezmoi.toml.tmpl` runs
+`scripts/age-key.ps1` before chezmoi reads managed files, including during
+`add`, `diff`, and `apply`. If the local identity is missing, it prompts for
+the Windows key password, validates the public recipient, and installs the
+unlocked key with access limited to the current Windows account and SYSTEM.
+Once unlocked, subsequent commands reuse the local key without prompting.
+Hooks also run during dry runs, so a first `chezmoi diff` or dry run can unlock
+the key. A failed unlock stops the command and removes temporary plaintext.
+
+`key.txt.age` and the helper script are ignored as chezmoi destination files.
+`.config/chezmoi/**` is also ignored, and `.gitignore` excludes plaintext key
+filenames. Only the password-protected identity belongs in Git.
+
+Add an existing file encrypted, for example:
+
+```powershell
+chezmoi add --encrypt "$env:USERPROFILE\.secrets.json"
+```
+
+Chezmoi stores an `encrypted_*.age` file in the source directory and decrypts it
+when applying. The destination file remains plaintext for applications to use.
+To edit the encrypted file and apply the result:
+
+```powershell
+chezmoi edit "$env:USERPROFILE\.secrets.json"
+chezmoi apply "$env:USERPROFILE\.secrets.json"
+```
+
+For a file already managed as plaintext, run `chezmoi chattr +encrypted <path>`.
+This encrypts the current source file; any plaintext in earlier Git commits
+remains in Git history.
+
+The initial password-protected key is created from the local Windows identity
+with this command, run from the source directory (it refuses to overwrite an
+existing `key.txt.age`):
+
+```powershell
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\age-key.ps1 -Protect
+```
+
+This asks for a password and confirmation, then decrypts a temporary copy to
+verify the backup with one more password prompt. Keep the Windows key password
+available for new machines; the encrypted key in Git is the portable backup.
+
 ## WinGet packages
 
 `winget-packages.json` is the shared package list, initially containing
